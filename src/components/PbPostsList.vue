@@ -5,14 +5,15 @@ import PBclient from '../features/pocketbase/index.js'
 const records = await PBclient.collection('posts').getFullList({
   sort: '-created'
 })
-console.log(records)
 </script>
 
 <template>
   <div class="greetings">
     <h1 class="green">Příspěvky</h1>
     <ul>
-      <li v-for="record in records" :key="record.id">{{ record.title }}</li>
+      <li v-for="record in records" :key="record.id">
+        <a :href="'/post/' + record.id"> {{ record.title }} </a>
+      </li>
     </ul>
   </div>
 </template>

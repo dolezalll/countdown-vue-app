@@ -1,16 +1,16 @@
 <script setup>
-import PbPosts from '../components/PbPosts.vue'
+import post from '../components/post.vue'
 </script>
 
 <template>
   <main>
     <Suspense>
       <template #default>
-        <PbPosts />
+        <post />
       </template>
       <template #fallback>
         <div class="greetings">
-          <h1 class="green">Načítání</h1>
+          <h1 class="green">Načítání příspěvku...</h1>
         </div>
       </template>
     </Suspense>

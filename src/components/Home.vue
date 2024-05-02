@@ -9,7 +9,8 @@ export default {
   name: 'HomeComponent',
   data() {
     return {
-      message: 'Příspěvky najdes v navbaru "Posts"'
+      message:
+        'Příspěvky najdeš v menu jako "Blog" + nově si můžeš přečíst jednotlivý příspěvek a také pokud se omylem dostaneš na adresu, která neexistuje, tak se ti zobrazí 404 stránka.'
     }
   }
 }
