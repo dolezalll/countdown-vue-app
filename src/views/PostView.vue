@@ -1,5 +1,5 @@
 <script setup>
-import post from '../components/post.vue'
+import post from '../components/showSinglePost.vue'
 </script>
 
 <template>
