@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  pocketbase:
+    build:
+      context: .
+      dockerfile: Dockerfile.pocketbase.yml
+    ports:
+      - '8090:8090'
+    volumes:
+      - ./pocketbase/pb_data:/pb/pb_data
+      - ./pocketbase/pb_migrations:/pb/pb_migrations
+
+  vue-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.vue.yml
+    ports:
+      - '8080:8080'
+    depends_on:
+      - pocketbase
