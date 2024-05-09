@@ -1,5 +1,5 @@
 <script setup>
-import PbPostsList from '../components/PbPostsList.vue'
+import PbPostsList from '@/components/PbPostsList.vue'
 </script>
 
 <template>
@@ -10,7 +10,7 @@ import PbPostsList from '../components/PbPostsList.vue'
       </template>
       <template #fallback>
         <div class="greetings">
-          <h1 class="green">Načítání</h1>
+          <h1 class="green">Načítání..</h1>
         </div>
       </template>
     </Suspense>

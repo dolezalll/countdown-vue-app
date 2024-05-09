@@ -1,36 +1,40 @@
 <script setup>
+import { ref } from 'vue'
 import PBclient from '../features/pocketbase/index.js'
+import loadMoreButton from '@/components/loadMoreButton.vue'
 
-// you can also fetch all records at once via getFullList
-// const records = await PBclient.collection('posts').getFullList({
-//   sort: '-created'
-// })
-
-const records = await PBclient.collection('posts').getList(1, 5, {
-  sort: '-created'
+const records = ref({
+  items: [],
+  page: 0,
+  hasMore: true
 })
 
-async function loadMore() {
-  const newRecords = await PBclient.collection('posts').getList(records.page + 1, 5, {
+async function fetchInitialRecords() {
+  const initialRecords = await PBclient.collection('posts').getList(1, 5, {
     sort: '-created'
   })
-  records.items = records.items.concat(newRecords.items)
-  records.page = newRecords.page
-  console.log(records)
+  records.value = initialRecords
+  records.value.hasMore = initialRecords.items.length === 5
+  console.log(records.value)
 }
 
-console.log(records)
+fetchInitialRecords()
+
+function handleUpdate(updatedRecords) {
+  records.value = updatedRecords
+}
 </script>
 
 <template>
   <div class="greetings">
     <h1 class="green">Příspěvky</h1>
     <ul>
-      <li v-for="record in records.items" :key="record.id">
-        <a :href="'/post/' + record.id"> {{ record.title }} </a>
+      <li v-for="(record, index) in records.items" :key="record.id">
+        <a :href="'/post/' + record.id"> {{ index + 1 }} - {{ record.title }} </a>
       </li>
     </ul>
-    <button id="loadMoreBTN" @click="loadMore">Load More</button>
+    <loadMoreButton :records="records" @update="handleUpdate" v-if="records.hasMore" />
+    <p v-if="!records.hasMore">Další příspěvky nebyly nalezeny.</p>
   </div>
 </template>
 
@@ -40,25 +44,6 @@ h1 {
   font-size: 2.6rem;
   position: relative;
   top: -10px;
-}
-
-#loadMoreBTN {
-  background-color: #4caf50; /* Green background */
-  border: none; /* Remove borders */
-  color: white; /* White text */
-  padding: 10px 32px; /* Some padding */
-  text-align: center; /* Centered text */
-  text-decoration: none; /* Remove underline */
-  display: inline-block;
-  font-size: 16px;
-  margin: 25px 2px;
-  cursor: pointer; /* Mouse pointer on hover */
-  border-radius: 12px; /* Rounded corners */
-  transition-duration: 0.4s; /* Transition effects */
-}
-
-#loadMoreBTN:hover {
-  background-color: #055709; /* Darker green on hover */
 }
 
 h3 {

@@ -8,6 +8,7 @@ import { RouterView } from 'vue-router'
       <nav>
         <RouterLink to="/" exact>Domů</RouterLink>
         <RouterLink to="/posts">Blog</RouterLink>
+        <RouterLink to="/play/sobik/s01/e01">Player serial: SOBIK S01 E01</RouterLink>
       </nav>
     </div>
   </header>

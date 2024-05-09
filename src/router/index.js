@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,7 +12,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: () => import('../views/HomeView.vue')
+      component: HomeView
     },
     {
       path: '/post/:id',
@@ -22,6 +23,11 @@ const router = createRouter({
       path: '/:pathMatch(.*)*',
       name: '404',
       component: () => import('../components/404.vue')
+    },
+    {
+      path: '/play/sobik/s01/e01',
+      name: 'Sobik S01 E01',
+      component: () => import('../views/Player.vue')
     }
   ]
 })

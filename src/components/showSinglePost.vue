@@ -1,6 +1,7 @@
 <script setup>
 import PBclient from '../features/pocketbase/index.js'
 import { useRouter } from 'vue-router'
+import LoadMoreButton from './loadMoreButton.vue'
 
 const router = useRouter()
 const postID = router.currentRoute.value.params.id
@@ -8,62 +9,27 @@ let post = null
 
 try {
   post = await PBclient.collection('posts').getOne(postID)
+  console.log(post)
 } catch (error) {
   console.error(error)
   router.push({ name: '404' })
 }
 
-// const generateRandomText = () => {
-//   const words = [
-//     'Ahoj',
-//     'Jak',
-//     'se',
-//     'máš',
-//     'Jsem',
-//     'tady',
-//     'na',
-//     'kávě',
-//     's',
-//     'kamarádem',
-//     'a',
-//     'nevim',
-//     'co',
-//     'děláme'
-//   ]
+let records = {
+  items: [],
+  page: 0
+}
 
-//   const getRandomWord = () => {
-//     const randomIndex = Math.floor(Math.random() * words.length)
-//     return words[randomIndex]
-//   }
-
-//   let randomText = ''
-//   const wordCount = Math.floor(Math.random() * 50000) + 100000
-//   for (let i = 0; i < wordCount; i++) {
-//     randomText += getRandomWord() + ' '
-//   }
-
-//   return randomText.trim()
-// }
-
-// const data = {
-//   title: 'test',
-//   text: generateRandomText()
-// }
-// const time = new Date().toUTCString()
-// const postADD = await PBclient.collection('posts').create(data)
-// for (let i = 0; i < 100; i++) {
-//   const randomData = {
-//     title: 'Příspěvek ' + time + ' ' + i,
-//     text: generateRandomText()
-//   }
-//   await PBclient.collection('posts').create(randomData)
-// }
+const handleUpdate = (updatedRecords) => {
+  records = updatedRecords
+}
 </script>
 
 <template>
   <div class="greetings" v-if="post">
     <h1 class="green">{{ post.title }}</h1>
     <p>{{ post.text }}</p>
+    <load-more-button :records="records" @update="handleUpdate"></load-more-button>
   </div>
 </template>
 
